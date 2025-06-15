@@ -31,4 +31,20 @@ class TaskModel {
       'createdAt': createdAt,
     };
   }
+
+  TaskModel copyWith({
+    String? id,
+    String? title,
+    String? description,
+    DateTime? createdAt,
+    bool? isCompleted,
+  }) {
+    return TaskModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      createdAt: createdAt ?? this.createdAt,
+      isCompleted: isCompleted ?? this.isCompleted,
+    );
+  }
 }

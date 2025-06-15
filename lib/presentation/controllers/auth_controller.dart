@@ -23,7 +23,7 @@ class AuthController extends GetxController {
       final user = await _authRepo.login(email, password);
       currentUser.value = user;
       await LocalStorageService.setFirstTimeFalse();
-      Get.offAll(() => const HomeScreen());
+      Get.offAll(() => HomeScreen());
     } catch (e) {
       Get.snackbar(
         'Login Failed',
@@ -40,7 +40,7 @@ class AuthController extends GetxController {
       isLoading.value = true;
       final user = await _authRepo.signUp(email, password);
       currentUser.value = user;
-      Get.offAll(() => const HomeScreen());
+      Get.offAll(() => HomeScreen());
     } catch (e) {
       Get.snackbar(
         'Signup Failed',
@@ -56,6 +56,6 @@ class AuthController extends GetxController {
     await _authRepo.logout();
     currentUser.value = null;
     await LocalStorageService.setFirstTimeFalse();
-    Get.offAll(() => const LoginScreen());
+    Get.offAll(() => LoginScreen());
   }
 }

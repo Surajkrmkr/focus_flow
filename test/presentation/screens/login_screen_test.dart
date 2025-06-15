@@ -12,7 +12,7 @@ void main() {
 
   testWidgets('Login screen UI and validation', (WidgetTester tester) async {
     await tester.pumpWidget(
-      const GetMaterialApp(home: LoginScreen()),
+      GetMaterialApp(home: LoginScreen()),
     );
 
     // Verify widgets exist

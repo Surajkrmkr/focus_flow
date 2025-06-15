@@ -1,23 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:focus_flow/data/services/local_storage_service.dart';
-import 'package:focus_flow/presentation/screens/home_screen.dart';
-import 'package:focus_flow/presentation/screens/login_screen.dart';
+import 'package:focus_flow/data/services/export.dart';
+import 'package:focus_flow/presentation/screens/export.dart';
 import 'package:get/get.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    _initApp();
-  }
 
   Future<void> _initApp() async {
     await Future.delayed(const Duration(seconds: 2));
@@ -25,20 +13,17 @@ class _SplashScreenState extends State<SplashScreen> {
     final user = FirebaseAuth.instance.currentUser;
 
     if (isFirstTime) {
-      Get.offAll(() => const LoginScreen());
+      Get.offAll(() => LoginScreen());
     } else if (user != null) {
-      Get.offAll(() => const HomeScreen());
+      Get.offAll(() => HomeScreen());
     } else {
-      Get.offAll(() => const LoginScreen());
+      Get.offAll(() => LoginScreen());
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    Future.microtask(() => _initApp());
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

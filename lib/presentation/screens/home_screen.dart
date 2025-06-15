@@ -1,19 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:focus_flow/data/models/export.dart';
+import 'package:focus_flow/presentation/controllers/export.dart';
+import 'package:focus_flow/presentation/widgets/export.dart';
 import 'package:get/get.dart';
-import 'package:focus_flow/presentation/controllers/task_controller.dart';
-import 'package:focus_flow/data/models/task_model.dart';
-import 'package:focus_flow/presentation/controllers/auth_controller.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  final TaskController taskController = Get.put(TaskController());
+  final AuthController authController = Get.find();
+
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  void _showTaskDialog({
+    required BuildContext context,
+    TaskModel? task,
+    required void Function(String, String) onSave,
+  }) {
+    titleController.text = task?.title ?? '';
+    descriptionController.text = task?.description ?? '';
+
+    showDialog(
+      context: context,
+      builder: (_) => TaskDialog(
+        title: task == null ? 'Add Task' : 'Edit Task',
+        initialTitle: task?.title ?? '',
+        initialDescription: task?.description ?? '',
+        onSave: (newTitle, newDesc) {
+          if (task != null) {
+            taskController.updateTask(
+              task.copyWith(title: newTitle, description: newDesc),
+            );
+          } else {
+            final newTask = TaskModel(
+              id: '',
+              title: newTitle,
+              description: newDesc,
+              createdAt: DateTime.now(),
+              isCompleted: false,
+            );
+            taskController.addTask(newTask);
+          }
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final TaskController taskController = Get.put(TaskController());
-    final AuthController authController = Get.find();
-    final TextEditingController titleController = TextEditingController();
-    final TextEditingController descriptionController = TextEditingController();
-
     return Obx(() {
       final user = authController.currentUser.value;
       if (user != null && taskController.tasks.isEmpty) {
@@ -31,13 +66,15 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         body: Obx(() {
-          if (taskController.tasks.isEmpty) {
+          final tasks = taskController.tasks;
+          if (tasks.isEmpty) {
             return const Center(child: Text('No tasks yet.'));
           }
+
           return ListView.builder(
-            itemCount: taskController.tasks.length,
+            itemCount: tasks.length,
             itemBuilder: (context, index) {
-              final TaskModel task = taskController.tasks[index];
+              final task = tasks[index];
               return ListTile(
                 leading: Checkbox(
                   value: task.isCompleted,
@@ -60,15 +97,15 @@ class HomeScreen extends StatelessWidget {
                     Expanded(
                       child: Text(
                         task.description,
+                        maxLines: 1,
                         style: TextStyle(
                           decoration: task.isCompleted
                               ? TextDecoration.lineThrough
                               : null,
                         ),
-                        maxLines: 1,
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text(task.createdAt.toLocal().toString().split(' ')[0]),
                   ],
                 ),
@@ -77,50 +114,14 @@ class HomeScreen extends StatelessWidget {
                   onPressed: () => taskController.deleteTask(task.id),
                 ),
                 onTap: () {
-                  titleController.text = task.title;
-                  descriptionController.text = task.description;
-                  showDialog(
+                  _showTaskDialog(
                     context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Edit Task'),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextField(
-                            controller: titleController,
-                            decoration: const InputDecoration(
-                              labelText: 'Title',
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          TextField(
-                            controller: descriptionController,
-                            decoration: const InputDecoration(
-                              labelText: 'Description',
-                            ),
-                            maxLines: 3,
-                          ),
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text('Cancel'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            taskController.updateTask(
-                              task.copyWith(
-                                title: titleController.text,
-                                description: descriptionController.text,
-                              ),
-                            );
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Save'),
-                        ),
-                      ],
-                    ),
+                    task: task,
+                    onSave: (title, desc) {
+                      taskController.updateTask(
+                        task.copyWith(title: title, description: desc),
+                      );
+                    },
                   );
                 },
               );
@@ -129,88 +130,23 @@ class HomeScreen extends StatelessWidget {
         }),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            titleController.clear();
-            descriptionController.clear();
-            showDialog(
+            _showTaskDialog(
               context: context,
-              builder: (_) => AlertDialog(
-                title: const Text('Add Task'),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: titleController,
-                      decoration: const InputDecoration(labelText: 'Title'),
-                    ),
-                    const SizedBox(height: 12),
-                    TextField(
-                      controller: descriptionController,
-                      decoration: const InputDecoration(
-                        labelText: 'Description',
-                      ),
-                      maxLines: 3,
-                    ),
-                  ],
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Cancel'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      final title = titleController.text.trim();
-                      final description = descriptionController.text.trim();
-
-                      if (title.isEmpty || description.isEmpty) {
-                        Get.snackbar(
-                          'Error',
-                          'Both title and description are required',
-                          backgroundColor: Colors.redAccent,
-                          colorText: Colors.white,
-                          snackPosition: SnackPosition.BOTTOM,
-                        );
-                        return;
-                      }
-
-                      final newTask = TaskModel(
-                        id: '',
-                        title: title,
-                        description: description,
-                        createdAt: DateTime.now(),
-                        isCompleted: false,
-                      );
-
-                      taskController.addTask(newTask);
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Add'),
-                  ),
-                ],
-              ),
+              onSave: (title, desc) {
+                final newTask = TaskModel(
+                  id: '',
+                  title: title,
+                  description: desc,
+                  createdAt: DateTime.now(),
+                  isCompleted: false,
+                );
+                taskController.addTask(newTask);
+              },
             );
           },
           child: const Icon(Icons.add),
         ),
       );
     });
-  }
-}
-
-extension on TaskModel {
-  TaskModel copyWith({
-    String? id,
-    String? title,
-    String? description,
-    DateTime? createdAt,
-    bool? isCompleted,
-  }) {
-    return TaskModel(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      createdAt: createdAt ?? this.createdAt,
-      isCompleted: isCompleted ?? this.isCompleted,
-    );
   }
 }
