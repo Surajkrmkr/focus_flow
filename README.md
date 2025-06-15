@@ -102,16 +102,11 @@ test/
 
 ### Login Flow
 
-https://github.com/Surajkrmkr/focus_flow/raw/main/screenshots/login.mov
+![Sample Video](https://github.com/Surajkrmkr/focus_flow/raw/main/screenshots/login.mov)
 
 ### Task Management
 
-https://github.com/Surajkrmkr/focus_flow/raw/main/screenshots/task.mov
-
----
-Absolutely! Adding a **To-Do** section in your `README.md` is a great way to keep track of planned features or improvements and communicate upcoming work to collaborators or future you.
-
-Here’s a sample **📝 To-Do** section you can include:
+![Sample Video](https://github.com/Surajkrmkr/focus_flow/raw/main/screenshots/task.mov)
 
 ---
 
