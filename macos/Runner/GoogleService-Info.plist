@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>859085558360-kkfbb1737sgn0o08ulp9ep0p7t0kheav.apps.googleusercontent.com</string>
+	<string>859085558360-152ssddvcf8qqel4ns58iaf58oca9o4v.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.859085558360-kkfbb1737sgn0o08ulp9ep0p7t0kheav</string>
+	<string>com.googleusercontent.apps.859085558360-152ssddvcf8qqel4ns58iaf58oca9o4v</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDftIIL6ab4EUtUBA2anfyq3RwNHAmKXGE</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.suraj.focusflow</string>
+	<string>com.example.focusFlow</string>
 	<key>PROJECT_ID</key>
 	<string>focusflow-e997f</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:859085558360:ios:59fb21399d19ee5932702d</string>
+	<string>1:859085558360:ios:31c08662bbf52bef32702d</string>
 </dict>
 </plist>
