@@ -102,11 +102,11 @@ test/
 
 ### Login Flow
 
-![Sample Video](https://github.com/Surajkrmkr/focus_flow/raw/main/screenshots/login.mov)
+![Screen Recording 2025-06-15 at 7 58 45 PM](https://github.com/user-attachments/assets/65760a64-076d-46af-8d9a-90305c8732a4)
 
 ### Task Management
 
-![Sample Video](https://github.com/Surajkrmkr/focus_flow/raw/main/screenshots/task.mov)
+https://github.com/Surajkrmkr/focus_flow/raw/main/screenshots/task.mov
 
 ---
 
