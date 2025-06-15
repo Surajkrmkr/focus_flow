@@ -12,7 +12,12 @@
           "package_name": "com.suraj.focusflow"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "859085558360-nbeaejej64qev6g073dbt2fi0fmlqh58.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCWgQGXZYxhvHJj8P5R4uLtphv9wEvCxp8"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859085558360-nbeaejej64qev6g073dbt2fi0fmlqh58.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "859085558360-152ssddvcf8qqel4ns58iaf58oca9o4v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.focusFlow"
+              }
+            }
+          ]
         }
       }
     }
